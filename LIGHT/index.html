@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
     <title>光感測器</title>
 </head>
+
 <body>
-    <h1>光感測器</h1>
-    <p id="light_num"></p>
-    <p id="light_result"></p>
+    <div class="nav">
+        <h1 class="mx-auto">光感測器</h1>
+        <p id="light_num"></p>
+        <p id="light_result"></p>
+    </div>
+
 </body>
 
 <script>
@@ -18,24 +25,23 @@
 
     setup();
 
-    function setup(){
-        if (cpf){
+    function setup() {
+        if (cpf) {
             cpf.setPinMode('["resetPin"],["setPinMode","analog", 0, "INPUT"],["setPinMode", "digital", 2, "OUTPUT"]');
         }
     }
 
-    function loop(){
-        if (cpf){
+    function loop() {
+        if (cpf) {
             light = cpf.get("a0");
             document.getElementById("light_num").innerHTML = light;
 
 
-            if(light<512)
-            {
+            if (light < 512) {
                 cpf.request('["digitalWrite", 2 , 1]');
                 document.getElementById("light_result").innerHTML = 光源不足;
 
-            }else{
+            } else {
                 cpf.request('["digitalWrite", 2 , 0]');
                 document.getElementById("light_result").innerHTML = 光源充足;
             }
@@ -44,7 +50,8 @@
     }
     loop();
 
-    
+
 
 </script>
+
 </html>
