@@ -21,7 +21,7 @@ body{
 #thermometer
 {
     position: absolute;
-    widows: 100%;
+    width: 100%;
     left: 50%;
     bottom: 10px;
     transform: translateX(-50%);
