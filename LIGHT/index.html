@@ -37,11 +37,11 @@
             document.getElementById("light_num").innerHTML = light;
 
             if (light < 512) {
-                cpf.request('["digitalWrite", 2 , 1]');
+                cpf.request('["digitalWrite", 2, 1]');
                 document.getElementById("light_result").innerHTML = "光源不足";
 
             } else {
-                cpf.request('["digitalWrite", 2 , 0]');
+                cpf.request('["digitalWrite", 2, 0]');
                 document.getElementById("light_result").innerHTML = "光源充足";
 
             }
