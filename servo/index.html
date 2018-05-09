@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://stack.boostrapcdn.com/boostrap/4.1.1/css/boostrap.min.css">
+
+    <title>指針溫度計</title>
+</head>
+
+<body>
+    <h1>指針溫度計</h1>
+
+    <div class="container">
+
+        <div class="col-xs-12">
+
+            <div class="images">
+                <img id="thermometer" src="img/thermometer.png">
+                <img id="pointer" src="img/pointer.png">
+            </div>
+
+            <br/>
+            <h3>Degree:
+                <span id="degree">none</span>°</h3>
+            <h3>Temperature:
+                <span id="temp">none</span>℃</h3>
+        </div>
+    </div>
+    <script>    src = "https://stack.boostrapcdn.com/boostrap/4.1.1/js/boostrap.min.js"        </script>
+</body>
+
+<script>
+    var celsius = 0;
+    var degree = 0;
+
+    setup();
+
+    function loop() {
+        if (cpf) {
+            tempdata = cpf.get("temperature sensor");
+            celsius = toCelsius(tempdata);
+            document.getElementById("temp").innerHTML = celsius;
+        }
+        setTimeout(loop, 1000);
+
+    }
+    loop();
+
+    function toCelsius(value) {
+        var resistance = parseFloat((1023 - value) * 10000 / value);
+        var temperature = 1 / (Math.log(resistance / 10000) / 3975 + 1 / 298.15) - 273.15;
+
+        return temperature.toFixed(2);
+    }
+
+    function setup() {
+        if (cpf) {
+            cpf.setPinmode('["resetPin"] ,["setPinMode", ""analog, 1,"INPUT", ["setPinMode", "digital", 4, "SERVO"]');
+        }
+    }
+</script>
+
+</html>
