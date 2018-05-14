@@ -19,21 +19,21 @@
     </nav>
     <div>
         <div class="wrap">
-            <button type="button" class="btn btn-primary" id="Do" onclick="keclick(this)" name="523">
+            <button type="button" class="btn btn-primary" id="Do" onclick="keclick(this)" name="523" style="height: 250px;">
                 Do</button>
-            <button type="button" class="btn btn-secondary" id="Re" onclick="keclick(this)" name="587">
+            <button type="button" class="btn btn-secondary" id="Re" onclick="keclick(this)" name="587" style="height: 250px;">
                 Re</button>
-            <button type="button" class="btn btn-success" id="Mi" onclick="keclick(this)" name="659">
+            <button type="button" class="btn btn-success" id="Mi" onclick="keclick(this)" name="659" style="height: 250px;">
                 Mi</button>
-            <button type="button" class="btn btn-danger" id="Fa" onclick="keclick(this)" name="698">
+            <button type="button" class="btn btn-danger" id="Fa" onclick="keclick(this)" name="698" style="height: 250px;">
                 Fa</button>
-            <button type="button" class="btn btn-warning" id="So" onclick="keclick(this)" name="784">
+            <button type="button" class="btn btn-warning" id="So" onclick="keclick(this)" name="784" style="height: 250px;">
                 So</button>
-            <button type="button" class="btn btn-info" id="La" onclick="keclick(this)" name="880">
+            <button type="button" class="btn btn-info" id="La" onclick="keclick(this)" name="880" style="height: 250px;">
                 La</button>
-            <button type="button" class="btn btn-light" id="Si" onclick="keclick(this)" name="988">
+            <button type="button" class="btn btn-light" id="Si" onclick="keclick(this)" name="988" style="height: 250px;">
                 Si</button>
-            <button type="button" class="btn btn-dark" id="Do" onclick="keclick(this)" name="1046">
+            <button type="button" class="btn btn-dark" id="Do" onclick="keclick(this)" name="1046" style="height: 250px;">
                 Do</button>
         </div>
     </div>
@@ -43,7 +43,7 @@
 
     function setup() {
         if (cpf) {
-            cpf.setPinMode('["resetPin"], ["setPinMode", "digital", 6,"TONE"] ');
+            cpf.setPinMode('["resetPin"], ["setPinMode", "digital", 6,"TONE"]');
         }
     }
 
@@ -53,7 +53,7 @@
         console.log(a);
         console.log(event.id);
         if (cpf) {
-            cpf.request('["tone_play", 6, ${a}, 300]');
+            cpf.request(`["tone_play", 6, ${a}, 300]`);
         }
         console.log(`["tone_play", 6, ${a}, 300]`);
         
