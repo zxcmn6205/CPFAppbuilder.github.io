@@ -35,6 +35,8 @@
                 Si</button>
             <button type="button" class="btn btn-dark" id="Do" onclick="keclick(this)" name="1046" style="height: 250px;">
                 Do</button>
+            <button type="button" class="btn btn-info" id="Si" onclick="music(this)" name="musuc" style="height: 250px;">
+                music</button>
         </div>
     </div>
 </body>
@@ -56,7 +58,10 @@
             cpf.request(`["tone_play", 6, ${a}, 300]`);
         }
         console.log(`["tone_play", 6, ${a}, 300]`);
-        
+    }
+
+    function music(event){
+        cpf.request('["tone_play", 6, 261, 300],["sleep", 300],["tone_play", 6, 293, 300],["sleep", 300],["tone_play", 6, 329, 300],["sleep", 300],["tone_play", 6, 349, 300],["sleep", 300],["tone_play", 6, 392, 300],["sleep", 300],["tone_play", 6, 440, 300],["sleep", 300],["tone_play", 6, 493, 300],["sleep", 300],["tone_play", 6, 349, 523]');
     }
 
 </script>
