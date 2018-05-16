@@ -23,13 +23,17 @@
 
         function loop(){
             if(cpf){
-                if(light<=255){
+                if(state){
                     light=light-15;
-                    
+                    if(light<=0){
+                        state=!state;
+                    }
                 }
-                else if(light<=0){
+                else{
                     light=light+15;
-                   
+                   if(light>=255){
+                       state=!state;
+                   }
                 }
                 
                 cpf.request(`["grove_setColorRGB", 0, ${light}, ${light}, ${light}]`);
