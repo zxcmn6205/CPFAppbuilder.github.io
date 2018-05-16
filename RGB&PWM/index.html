@@ -18,7 +18,7 @@
     
         function setup() {
             if (cpf) {
-                cpf.setPinMode('["resetPin"],["grove_newchainableLED", 7, 8, 1],["setPinMode", "digital", 3, "PWM"]');
+                cpf.setPinMode('["resetPin"],["grove_newchainableLED", 7, 8, 1],["setPinMode", "digital", 6, "PWM"]');
             }
         }
 
@@ -41,7 +41,7 @@
                 
                 cpf.request(`["grove_setColorRGB", 0, ${light}, ${light}, ${light}]`);
                 console.log(light);
-                cpf.request(`["analogWrite", 3, ${fan}]`);
+                cpf.request(`["analogWrite", 6, ${fan}]`);
                 console.log(fan);
             }
             setTimeout(loop, 100);
