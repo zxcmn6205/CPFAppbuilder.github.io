@@ -14,6 +14,7 @@
         
         var light=255;
         var state=true;
+        var fan;
     
         function setup() {
             if (cpf) {
@@ -25,12 +26,14 @@
             if(cpf){
                 if(state){
                     light=light-15;
+                    fan=light;
                     if(light<=0){
                         state=!state;
                     }
                 }
                 else{
                     light=light+15;
+                    fan=light;
                    if(light>=255){
                        state=!state;
                    }
@@ -38,7 +41,8 @@
                 
                 cpf.request(`["grove_setColorRGB", 0, ${light}, ${light}, ${light}]`);
                 console.log(light);
-                cpf.request(`["analogWrite", 6, ${light}]`);
+                cpf.request(`["analogWrite", 6, ${fan}]`);
+                console.log(fan);
             }
             setTimeout(loop, 100);
         }
