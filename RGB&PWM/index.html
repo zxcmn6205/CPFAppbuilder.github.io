@@ -11,9 +11,10 @@
 <body>
     <script>
         setup();
-        
-        var light=255;
-        var state=true;
+
+        var light = 255;
+        var state = true;
+        var i;
 
         function setup() {
             if (cpf) {
@@ -21,28 +22,26 @@
             }
         }
 
-        function loop(){
-            if(cpf){
-                if(state){
-                    light=light-15;
-                    if(light<=0){
-                        state=!state;
-                    }
-                }
-                else{
-                    light=light+15;
-                   if(light>=255){
-                       state=!state;
-                   }
+        function loop() {
+            if (cpf) {
+
+                for (i = 255; i = i - 15; i <= 0) {
+                    i = light;
                 }
                 
+                if(light<=0){
+                    for(i=0;i=i+15;i<=255){
+                        i=light;
+                    }
+                }
+
                 cpf.request(`["grove_setColorRGB", 0, ${light}, ${light}, ${light}]`);
                 console.log(light);
             }
             setTimeout(loop, 100);
         }
         loop();
-        
+
     </script>
 </body>
 
