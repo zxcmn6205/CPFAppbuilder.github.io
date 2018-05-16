@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        setup();
+        var light=255;
+        var state=true;
+
+        function setup() {
+            if (cpf) {
+                cpf.setPinMode('["resetPin"], ["setPinMode", "digital", 6, "PWM"], ["grove_newchainableLED", 7, 8, 1]');
+            }
+        }
+
+        function loop(){
+            if(cpf){
+                if(state){
+                    light=light-5;
+                    if(light<=0){
+                        state=!state;
+                    }
+                }
+                else{
+                    light=light+5;
+                    if(light>=255){
+                        state=true;
+                    }
+                }
+                cpf.request(`["grove_setColorRGB"], 0, ${light}, ${light}, ${light}]`);
+            }
+        }
+    </script>
+</body>
+
+</html>
