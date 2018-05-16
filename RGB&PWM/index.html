@@ -32,11 +32,12 @@
                 else{
                     light=light+5;
                     if(light>=255){
-                        state=true;
+                        state=!state;
                     }
                 }
                 
                 cpf.request(`["grove_setColorRGB", 0, ${light}, ${light}, ${light}]`);
+                console.log(light);
             }
         }
         setTimeout(loop, 100);
