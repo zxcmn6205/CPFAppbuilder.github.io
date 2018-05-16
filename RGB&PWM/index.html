@@ -34,7 +34,8 @@
                         state=true;
                     }
                 }
-                cpf.request(`["grove_setColorRGB"], 0, ${light}, ${light}, ${light}]`);
+                
+                cpf.request(`["grove_setColorRGB", 0, ${light}, ${light}, ${light}]`);
             }
         }
         setTimeout(loop, 100);
