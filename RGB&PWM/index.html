@@ -38,7 +38,7 @@
                 
                 cpf.request(`["grove_setColorRGB", 0, ${light}, ${light}, ${light}]`);
                 console.log(light);
-                cpf.request(`["analogWite", 6, ${light}]`);
+                cpf.request(`["analogWrite", 6, ${light}]`);
             }
             setTimeout(loop, 100);
         }
