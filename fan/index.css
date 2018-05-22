@@ -1,0 +1,11 @@
+#clickbtn{
+    display: block;
+    position: relative;
+    float: left;
+    left: 50%;
+    margin: auto;
+}
+#words{
+    text-align: center;
+    margin-left: 40px;
+}
