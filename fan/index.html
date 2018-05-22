@@ -23,6 +23,9 @@
         var celsius = 0;
 
         setup();
+
+        loop();
+
         cpf.request('["analogWrite", 6, 0]');
         cpf.request('["grove_setColorRGB", 0, 0, 0, 0]');
         clickbtn.addEventListener('click', function (event) {
@@ -53,6 +56,7 @@
                 celsius = toCelsius(tempdata);
                 document.getElementById("temp").innerHTML = celsius;
             }
+            setTimeout(loop, 500);
         }
 
         function setup() {
