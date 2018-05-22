@@ -14,9 +14,13 @@
         <button id="clickbtn">呼叫AI</button>
         <br>
         <p id="words">none</p>
+        <br>
+        <h3>Temperature:
+            <span id="temp">none</span>℃</h3>
     </div>
     <script>
         var clickbtn = document.getElementById("clickbtn");
+        var celsius = 0;
 
         setup();
         cpf.request('["analogWrite", 6, 0]');
@@ -24,12 +28,12 @@
         clickbtn.addEventListener('click', function (event) {
             cpf.initSpeechRecognition("cmn-Hant-TW");
         });
- 
+
         function GetRecognizeResult(Result, Type) {
             if (Result.includes("好熱") || Result.includes("我知道你熱")) {
                 document.getElementById("words").innerHTML = Result;
                 cpf.SetSpeech("On", "cmn-Hant-TW", "風扇來囉", 1, 2);
-                
+
                 for (i = 0; i < 255; i += 10) { //風扇漸快
                     cpf.request('["analogWrite", 6, ' + i + ']');
                     cpf.request(`["grove_setColorRGB", 0, 0, ${i}, 0]`);
@@ -43,9 +47,17 @@
             }
         }
 
+        function loop() {
+            if (cpf) {
+                tempdata = cpf.get("temperature sensor");
+                celsius = toCelsius(tempdata);
+                document.getElementById("temp").innerHTML = celsius;
+            }
+        }
+
         function setup() {
             if (cpf) {
-                cpf.setPinMode('["resetPin"], ["setPinMode", "digital", 6, "PWM"], ["grove_newChainableLED", 7, 8, 1]');
+                cpf.setPinMode('["resetPin"], ["setPinMode", "digital", 6, "PWM"], ["grove_newChainableLED", 7, 8, 1], ["setPinMode", "analog", 1, "INPUT"]');
             }
         }
 
