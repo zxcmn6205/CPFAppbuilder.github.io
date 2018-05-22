@@ -52,7 +52,7 @@
 
         function loop() {
             if (cpf) {
-                celsius = cpf.get("temperature sensor");
+                tempdata = cpf.get("temperature sensor");
                 celsius = toCelsius(tempdata);
                 document.getElementById("temp").innerHTML = celsius;
             }
@@ -68,7 +68,7 @@
 
         function setup() {
             if (cpf) {
-                cpf.setPinMode('["resetPin"], ["setPinMode", "digital", 6, "PWM"], ["grove_newChainableLED", 7, 8, 1], ["setPinMode", "analog", 1, "INPUT"]');
+                cpf.setPinMode('["resetPin"], ["setPinMode", "digital", 6, "PWM"], ["grove_newChainableLED", 7, 8, 1]');
             }
         }
 
