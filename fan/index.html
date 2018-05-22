@@ -52,8 +52,8 @@
 
         function loop() {
             if (cpf) {
-                tempdata = cpf.get("temperature sensor");
-                celsius = toCelsius(tempdata);
+                celsius = cpf.get("temperature sensor");
+                
                 document.getElementById("temp").innerHTML = celsius;
             }
             setTimeout(loop, 500);
