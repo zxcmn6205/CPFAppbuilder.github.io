@@ -15,16 +15,13 @@
         <br>
         <p id="words">none</p>
         <br>
-        <h3>Temperature:
-            <span id="temp">none</span>℃</h3>
+        
     </div>
     <script>
         var clickbtn = document.getElementById("clickbtn");
-        var celsius = 0;
+        
 
         setup();
-
-        loop();
 
         cpf.request('["analogWrite", 6, 0]');
         cpf.request('["grove_setColorRGB", 0, 0, 0, 0]');
@@ -50,21 +47,6 @@
             }
         }
 
-        function loop() {
-            if (cpf) {
-                tempdata = cpf.get("temperature sensor");
-                celsius = toCelsius(tempdata);
-                document.getElementById("temp").innerHTML = celsius;
-            }
-            setTimeout(loop, 500);
-        }
-
-        function toCelsius(value) {
-        var resistance = parseFloat((1023 - value) * 10000 / value);
-        var temperature = 1 / (Math.log(resistance / 10000) / 3975 + 1 / 298.15) - 273.15;
-
-        return temperature.toFixed(2);
-    }
 
         function setup() {
             if (cpf) {
