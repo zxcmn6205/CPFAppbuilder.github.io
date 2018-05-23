@@ -15,11 +15,11 @@
         <br>
         <p id="words">none</p>
         <br>
-        
+
     </div>
     <script>
         var clickbtn = document.getElementById("clickbtn");
-        
+
 
         setup();
 
@@ -44,6 +44,11 @@
                 cpf.SetSpeech("On", "cmn-Hant-TW", "已經幫您關電扇了", 1, 1);
                 cpf.request('["analogWrite", 6, 0]'); //停止電扇
                 cpf.request('["grove_setColorRGB", 0, 255, 0, 0]');
+            }
+            else if (Result.includes("關燈") || Result.includes("好亮")) {
+                document.getElementById("words").innerHTML = Result;
+                cpf.SetSpeech("On", "cmn-Hant-TW", "已經幫您關燈了", 1, 1);
+                cpf.request('["grove_setColorRGB", 0, 0, 0, 0]');
             }
         }
 
