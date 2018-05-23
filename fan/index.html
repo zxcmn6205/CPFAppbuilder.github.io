@@ -50,6 +50,11 @@
                 cpf.SetSpeech("On", "cmn-Hant-TW", "已經幫您關燈了", 1, 1);
                 cpf.request('["grove_setColorRGB", 0, 0, 0, 0]');
             }
+            else if (Result.includes("開燈") || Result.includes("好暗")) {
+                document.getElementById("words").innerHTML = Result;
+                cpf.SetSpeech("On", "cmn-Hant-TW", "已經幫您開燈了", 1, 1);
+                cpf.request('["grove_setColorRGB", 0, 255, 255, 255]');
+            }
         }
 
 
