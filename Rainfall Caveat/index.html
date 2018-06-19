@@ -1,12 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>RainFall Caveat</title>
+    <link rel="stylesheet" href="font-awesome-4.7.0\css\font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-    
+    <div class="container">
+        <div class="col-xs-12">
+            <h3>降雨量語音查詢</h3>
+            <hr>
+        </div>
+
+        <div class="col-xs-12">
+            <button class="btn-info" id="clickbtn" style="padding: 10px 30px;border-radius: 10px">Voice</button>
+        </div>
+
+        <div class="col-xs-12">
+            <table class="table table-striped" style="margin-top: 30px">
+                <thead>
+                    <tr>
+                        <th>區域</th>
+                        <th>降雨量</th>
+                        <th>指標</th>
+                    </tr>
+                </thead>
+                <tbody id="content"></tbody>
+            </table>
+        </div>
+        <script>
+            var rain_data;
+            var clickbtn = $('#clickbtn');
+            var content = $('#content');
+            window.onload = function () {
+                var data_url = "https://opendata.epa.gov.tw/ws/Data/RainTenMin/?$format=json";
+
+                $.ajax({
+                    url: data_url,
+                    success: function (res) {
+                        rain_data = res;
+                    }
+                });
+
+                clickbtn.on('click', function(){
+                    cpf.initSpeechRecognition("cmn-Hant-TW");
+                });
+            }
+        </script>
+    </div>
 </body>
+
 </html>
