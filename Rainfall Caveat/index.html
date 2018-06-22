@@ -49,9 +49,40 @@
                     }
                 });
 
-                clickbtn.on('click', function(){
+                clickbtn.on('click', function () {
                     cpf.initSpeechRecognition("cmn-Hant-TW");
                 });
+            }
+
+            function GetRecgnizeResult(Result, Type) {
+                var rain;
+                
+                var color;
+
+                for (var i = 1; i <= rain_data.length; i++) {
+                    var item = rain_data[i];
+                    content.html("");
+
+                    if (Result.includes("台")) {
+                        Result = Result.replace("台", "臺");
+                    }
+                    if (Result.includes("降雨量") && Result.includes(item['County']) && Result.includes(item['SiteName'])) {
+                        //判斷降雨量
+                        if (item['Rainfall1hr'] > 40 && item['Rainfall24hr'] < 100) {
+                            rain = "大雨";
+                            color = "152,245,255";
+                        } else if (item['Rainfall3hr'] > 100 && item['Rainfall24hr'] < 200) {
+                            rain = "豪雨";
+                            color = "255,215,0";
+                        } else if (item['Rainfall24hr'] > 350 && item['Rainfall24hr'] < 500) {
+                            rain = "大豪雨";
+                            color = "255,0,0";
+                        } else if (item['Rainfall24hr'] > 500) {
+                            rain = "超大豪雨";
+                            color = "160,32,240";
+                        }
+                    }
+                }
             }
         </script>
     </div>
