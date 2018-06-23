@@ -36,12 +36,12 @@
             </table>
         </div>
         <script>
-            
+            setup();
             var rain_data;
             var clickbtn = $('#clickbtn');
             var content = $('#content');
             window.onload = function () {
-                var data_url = "https://opendata.epa.gov.tw/ws/Data/RainTenMin/?$format=json";
+                var data_url = "https://opendata.epa.gov.tw/ws/Data/RainTenMin/?$format=json&callback=?";
 
                 $.ajax({
                     url: data_url,
@@ -54,8 +54,8 @@
                     cpf.initSpeechRecognition("cmn-Hant-TW");
                 });
             }
-            console.log(rain_data);
-            function GetRecognizeResult(Result, Type) {
+            
+            function GetRecognizeResult(Result,Type) {
                 var rain = "";
 
                 var color = "";
