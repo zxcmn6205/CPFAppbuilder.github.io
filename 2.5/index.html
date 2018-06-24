@@ -37,16 +37,16 @@
         </div>
         <script>
             setup();
-            var rain_data=[];
+            var rain_data = [];
             var clickbtn = $('#clickbtn');
             var content = $('#content');
-            window.onload=function(){
-                var epaAPI="https://opendata.epa.gov.tw/ws/Data/RainTenMin/?$format=json&callback=?"
-                $.getJSON(epaAPI, function(){
-                    format:"json"
-                }).done(function(data){
-                    console.log(data);
-                    rain_data=data;
+            window.onload = function () {
+                var epaAPI = "https://opendata.epa.gov.tw/ws/Data/RainTenMin/?$format=json&callback=?";
+                $.getJSON(epaAPI, function () {
+                    format: "json"
+                }).done(function (data) {
+                    
+                    rain_data = data;
                 })
 
                 clickbtn.on('click', function () {
