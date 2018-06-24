@@ -54,7 +54,7 @@
             </table>
         </div>
         <script>
-            
+            //setup();
             var rain_data = [];
             var clickbtn = $('#clickbtn');
             var content = $('#content');
@@ -67,8 +67,9 @@
                 $.getJSON(epaAPI, function () {
                     format: "json"
                 }).done(function (data) {
-                    rain_data = data;
+
                     data.forEach(function (e, i) {
+                        rain_data = data;
                         county[i] = e.County;
                     });
                     result = county.filter(function (element, index, arr) {
@@ -89,9 +90,7 @@
                             }
                         });
                     });
-                    
-                    setup();
-                    
+
                     clickbtn.on('click', function (event) {
                         cpf.initSpeechRecognition("cmn-Hant-TW");
                     });
@@ -146,9 +145,13 @@
                             }
                         }
                     }
+
                 });
+
             }
- 
+
+
+
             function setup() {
                 if (cpf) {
                     cpf.setPinMode('["resetPin"], ["grove_newChainableLED", 7, 8, 1], ["setPinMode", "digital", 4, "TONE"], ["grove_rgblcd_begin", 16, 2]');
