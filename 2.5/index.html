@@ -54,7 +54,7 @@
             </table>
         </div>
         <script>
-            setup();
+            
             var rain_data = [];
             var clickbtn = $('#clickbtn');
             var content = $('#content');
@@ -89,6 +89,7 @@
                             }
                         });
                     });
+                    setup();
                     console.log(rain_data);
                     clickbtn.on('click', function (event) {
                         cpf.initSpeechRecognition("cmn-Hant-TW");
