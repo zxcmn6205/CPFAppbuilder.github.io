@@ -46,6 +46,7 @@
                     format:"json"
                 }).done(function(data){
                     console.log(data);
+                    rain_data=data;
                 })
 
                 clickbtn.on('click', function () {
@@ -58,8 +59,8 @@
 
                 var color = "";
 
-                for (var i = 1; i <= data.length; i++) {
-                    var item = data[i];
+                for (var i = 1; i <= rain_data.length; i++) {
+                    var item = rain_data[i];
                     content.html("");
 
                     if (Result.includes("台")) {
