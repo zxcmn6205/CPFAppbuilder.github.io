@@ -71,18 +71,23 @@
                         if (item['Rainfall1hr'] > 40 && item['Rainfall24hr'] < 100) {
                             rain = "大雨";
                             color = "152,245,255";
+                            console.log(+rain+color);
                         } else if (item['Rainfall3hr'] > 100 && item['Rainfall24hr'] < 200) {
                             rain = "豪雨";
                             color = "255,215,0";
+                            console.log(+rain+color);
                         } else if (item['Rainfall24hr'] > 350 && item['Rainfall24hr'] < 500) {
                             rain = "大豪雨";
                             color = "255,0,0";
+                            console.log(+rain+color);
                         } else if (item['Rainfall24hr'] > 500) {
                             rain = "超大豪雨";
                             color = "160,32,240";
+                            console.log(+rain+color);
                         }else {
                             rain="晴天";
                             color="0,0,255";
+                            console.log(+rain+color);
                         }
                         //語音
                         cpf.SetSpeech("off", "cmn-Hant-TW", item['County'] + item['Township'] + "目前正在下" + rain + ",二十四小時內降雨量為" + item['Rainfall24hr'], 1, 1);
