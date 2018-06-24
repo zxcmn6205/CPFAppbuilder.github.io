@@ -89,68 +89,66 @@
                             }
                         });
                     });
+                    console.log(rain_data);
+                    clickbtn.on('click', function (event) {
+                        cpf.initSpeechRecognition("cmn-Hant-TW");
+                    });
 
+                    function GetRecognizeResult(Result, Type) {
+                        var rain = "";
 
-                });
+                        var color = "";
 
-                clickbtn.on('click', function (event) {
-                    cpf.initSpeechRecognition("cmn-Hant-TW");
-                });
+                        for (var i = 1; i <= rain_data.length; i++) {
+                            var item = rain_data[i];
+                            content.html("");
 
-                function GetRecognizeResult(Result, Type) {
-                    var rain = "";
-
-                    var color = "";
-
-                    for (var i = 1; i <= rain_data.length; i++) {
-                        var item = rain_data[i];
-                        content.html("");
-
-                        if (Result.includes("台")) {
-                            Result = Result.replace("台", "臺");
-                        }
-                        if (Result.includes("降雨量") && Result.includes(item['County']) && Result.includes(item['Township'])) {
-                            //判斷降雨量
-                            if (item['Rainfall1hr'] > 40 && item['Rainfall24hr'] < 100) {
-                                rain = "大雨";
-                                color = "152,245,255";
-                                console.log(rain, color);
-                            } else if (item['Rainfall3hr'] > 100 && item['Rainfall24hr'] < 200) {
-                                rain = "豪雨";
-                                color = "255,215,0";
-                                console.log(rain, color);
-                            } else if (item['Rainfall24hr'] > 350 && item['Rainfall24hr'] < 500) {
-                                rain = "大豪雨";
-                                color = "255,0,0";
-                                console.log(rain, color);
-                            } else if (item['Rainfall24hr'] > 500) {
-                                rain = "超大豪雨";
-                                color = "160,32,240";
-                                console.log(rain, color);
-                            } else {
-                                rain = "晴天";
-                                color = "0,0,255";
-                                console.log(rain, color);
+                            if (Result.includes("台")) {
+                                Result = Result.replace("台", "臺");
                             }
-                            //語音
-                            cpf.SetSpeech("off", "cmn-Hant-TW", item['County'] + item['Township'] + "目前正在下" + rain + ",二十四小時內降雨量為" + item['Rainfall24hr'], 1, 1);
-                            //螢幕顯示雨量指標顏色
-                            cpf.request('["grove_rgblcd_set_rgb", ' + color + ']');
-                            //設定文字
-                            cpf.request('["grove_rgblcd_clear"]');
-                            cpf.request('["grove_rgbld_print", 0, 1, "' + item['Cunty'] + "  " + item['Township'] + "  " + rain + '"]');
+                            if (Result.includes("降雨量") && Result.includes(item['County']) && Result.includes(item['Township'])) {
+                                //判斷降雨量
+                                if (item['Rainfall1hr'] > 40 && item['Rainfall24hr'] < 100) {
+                                    rain = "大雨";
+                                    color = "152,245,255";
+                                    console.log(rain, color);
+                                } else if (item['Rainfall3hr'] > 100 && item['Rainfall24hr'] < 200) {
+                                    rain = "豪雨";
+                                    color = "255,215,0";
+                                    console.log(rain, color);
+                                } else if (item['Rainfall24hr'] > 350 && item['Rainfall24hr'] < 500) {
+                                    rain = "大豪雨";
+                                    color = "255,0,0";
+                                    console.log(rain, color);
+                                } else if (item['Rainfall24hr'] > 500) {
+                                    rain = "超大豪雨";
+                                    color = "160,32,240";
+                                    console.log(rain, color);
+                                } else {
+                                    rain = "晴天";
+                                    color = "0,0,255";
+                                    console.log(rain, color);
+                                }
+                                //語音
+                                cpf.SetSpeech("off", "cmn-Hant-TW", item['County'] + item['Township'] + "目前正在下" + rain + ",二十四小時內降雨量為" + item['Rainfall24hr'], 1, 1);
+                                //螢幕顯示雨量指標顏色
+                                cpf.request('["grove_rgblcd_set_rgb", ' + color + ']');
+                                //設定文字
+                                cpf.request('["grove_rgblcd_clear"]');
+                                cpf.request('["grove_rgbld_print", 0, 1, "' + item['Cunty'] + "  " + item['Township'] + "  " + rain + '"]');
 
-                            content.append('<tr><td>' + item['County'] + item['Township'] + '</td><td style="background-color:rgb(' + color + ');">' + item['Rainfall24hr'] + '</td><td>' + rain + '</td><tr>');
-                            //設定LED燈泡顏色
-                            cpf.request('["grove_setColorRGB", 0, ' + color + ']');
-                            break;
+                                content.append('<tr><td>' + item['County'] + item['Township'] + '</td><td style="background-color:rgb(' + color + ');">' + item['Rainfall24hr'] + '</td><td>' + rain + '</td><tr>');
+                                //設定LED燈泡顏色
+                                cpf.request('["grove_setColorRGB", 0, ' + color + ']');
+                                break;
+                            }
                         }
                     }
-                }
+                });
+
+
             }
-
-
-
+ 
             function setup() {
                 if (cpf) {
                     cpf.setPinMode('["resetPin"], ["grove_newChainableLED", 7, 8, 1], ["setPinMode", "digital", 4, "TONE"], ["grove_rgblcd_begin", 16, 2]');
