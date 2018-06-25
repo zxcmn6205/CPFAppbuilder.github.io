@@ -70,7 +70,7 @@
                 }).done(function (data) {
                     rain_data = data;
                     data.forEach(function (e, i) {
-                        
+
                         county[i] = e.County;
                     });
                     result = county.filter(function (element, index, arr) {
@@ -119,14 +119,14 @@
                             }
                         });
                     });
-                    
-                    $clickbtn.on('click', function (event) {
+
+                    /*$clickbtn.on('click', function (event) {
                         cpf.initSpeechRecognition("cmn-Hant-TW");
-                    });
+                    });*/
                 });
             }
 
-            //語音辨識
+            /*//語音辨識
             function GetRecognizeResult(Result, Type) {
                 var rain = "";
 
@@ -176,7 +176,7 @@
                         break;
                     }
                 }
-            }
+            }*/
             function changergb(s_color) {
                 if (cpf) {
                     cpf.request('["grove_setColorRGB", 0, ' + s_color + ']');
