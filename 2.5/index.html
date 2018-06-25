@@ -69,6 +69,7 @@
                 console.log("opendata loaded");
                 console.log(data);
                 rain_data = data;
+                //
                 data.forEach(function (e, i) {
 
                     county[i] = e.County;
@@ -101,23 +102,30 @@
                     $content.html('');
                     data.forEach(function (e, i) {
                         if (e.SiteName == x) {
+                            //雨量分級
                             if (e['Rainfall1hr'] > 40 && e['Rainfall24hr'] < 100) {
                                 s_rain = "大雨";
+                                e_rain = "Heavy_rain";
                                 s_color = "152,245,255";
                             } else if (e['Rainfall3hr'] > 100 && e['Rainfall24hr'] < 200) {
                                 s_rain = "豪雨";
+                                e_rain = "Extremely_heavy_rain";
                                 s_color = "255,215,0";
                             } else if (e['Rainfall24hr'] > 350 && e['Rainfall24hr' < 500]) {
                                 s_rain = "大豪雨";
+                                e_rain = "Torrential_rain";
                                 s_color = "255,0,0";
                             } else if (e['Rainfall24hr'] > 500) {
                                 s_rain = "超大豪雨";
+                                e_rain = "Extremelt_torrential_rain";
                                 s_color = "162,32,240";
                             } else {
                                 s_rain = "晴天";
+                                e_rain = "Sunny";
                                 s_color = "0,0,255";
                             } $content.append('<tr><td>' + e['County'] + e['Township'] + e['SiteName'] + '</td><td style="background-color:rgb(' + s_color + ');">' + e['Rainfall24hr'] + '</td><td>' + s_rain + '</td><tr>');
                             changergb(s_color);
+                            seperate(s_color, e_rain);
                         }
                     });
                 });
@@ -179,9 +187,18 @@
                 }
             }
         }*/
+        //設定燈泡顏色
         function changergb(s_color) {
             if (cpf) {
                 cpf.request('["grove_setColorRGB", 0, ' + s_color + ']');
+            }
+        }
+        function seperate(s_color, e_rain) {
+            if (cpf) {
+                //設定LCD面板顏色及文字
+                cpf.request('["grove_rgblcd_clear"]');
+                cpf.request('["grove_rgblcd_set_rgb", ' + s_color + ']');
+                cpf.request('["grove_rgbld_print", 0, 1, "' + e_rain + '"]');
             }
         }
         function setup() {
