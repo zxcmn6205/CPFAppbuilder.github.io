@@ -68,9 +68,9 @@
                 $.getJSON(epaAPI, function () {
                     format: "json"
                 }).done(function (data) {
-
+                    rain_data = data;
                     data.forEach(function (e, i) {
-                        rain_data = data;
+                        
                         county[i] = e.County;
                     });
                     result = county.filter(function (element, index, arr) {
@@ -119,7 +119,7 @@
                             }
                         });
                     });
-                    console.log(rain_data);
+                    
                     clickbtn.on('click', function (event) {
                         cpf.initSpeechRecognition("cmn-Hant-TW");
                     });
