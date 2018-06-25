@@ -54,7 +54,7 @@
             </table>
         </div>
         <script>
-            setup();
+            //setup();
             var rain_data = [];
             var $clickbtn = $('#clickbtn');
             var $content = $('#content');
@@ -82,12 +82,14 @@
                     });
 
                     var cc = $city.val();
+
                     $("#city").change(function () {
                         cc = $city.val();
+
                         $area.html('');
                         data.forEach(function (e, i) {
                             if (e.County == cc) {
-                                $area.append('<option value="' + e.Township + '">' + e.Township + '</option>')
+                                $area.append('<option value="' + e.SiteName + '">' + e.Township + e.SiteName + '</option>')
                             }
                         });
                     });
@@ -98,7 +100,7 @@
                         var x = $area.val();
                         $content.html('');
                         data.forEach(function (e, i) {
-                            if (e.Township == x) {
+                            if (e.SiteName == x) {
                                 if (e['Rainfall1hr'] > 40 && e['Rainfall24hr'] < 100) {
                                     s_rain = "大雨";
                                     s_color = "152,245,255";
@@ -114,8 +116,8 @@
                                 } else {
                                     s_rain = "晴天";
                                     s_color = "0,0,255";
-                                } $content.append('<tr><td>' + e['County'] + e['Township'] + '</td><td style="background-color:rgb(' + s_color + ');">' + e['Rainfall24hr'] + '</td><td>' + s_rain + '</td><tr>');
-                                changergb(s_color);
+                                } $content.append('<tr><td>' + e['County'] + e['Township'] + e['SiteName'] + '</td><td style="background-color:rgb(' + s_color + ');">' + e['Rainfall24hr'] + '</td><td>' + s_rain + '</td><tr>');
+
                             }
                         });
                     });
