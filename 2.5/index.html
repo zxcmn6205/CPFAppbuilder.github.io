@@ -54,7 +54,7 @@
             </table>
         </div>
         <script>
-            //setup();
+            setup();
             var rain_data = [];
             var $clickbtn = $('#clickbtn');
             var $content = $('#content');
@@ -68,6 +68,7 @@
                 $.getJSON(epaAPI, function () {
                     format: "json"
                 }).done(function (data) {
+                    console.log("opendata loaded");
                     rain_data = data;
                     data.forEach(function (e, i) {
 
@@ -117,7 +118,7 @@
                                     s_rain = "晴天";
                                     s_color = "0,0,255";
                                 } $content.append('<tr><td>' + e['County'] + e['Township'] + e['SiteName'] + '</td><td style="background-color:rgb(' + s_color + ');">' + e['Rainfall24hr'] + '</td><td>' + s_rain + '</td><tr>');
-
+                                changergb(s_color);
                             }
                         });
                     });
