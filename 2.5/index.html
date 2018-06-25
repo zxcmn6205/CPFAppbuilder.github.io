@@ -54,9 +54,9 @@
             </table>
         </div>
         <script>
-            setup();
+            //setup();
             var rain_data = [];
-            var clickbtn = $('#clickbtn');
+            var $clickbtn = $('#clickbtn');
             var $content = $('#content');
             var county = [];
             var $city = $('#city');
@@ -120,13 +120,10 @@
                         });
                     });
                     
-                    clickbtn.on('click', function (event) {
+                    $clickbtn.on('click', function (event) {
                         cpf.initSpeechRecognition("cmn-Hant-TW");
                     });
-                    GetRecognizeResult(Result, type);
-
                 });
-
             }
 
             //語音辨識
