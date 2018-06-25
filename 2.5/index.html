@@ -54,13 +54,14 @@
             </table>
         </div>
         <script>
-            //setup();
+            setup();
             var rain_data = [];
             var clickbtn = $('#clickbtn');
-            var content = $('#content');
+            var $content = $('#content');
             var county = [];
             var $city = $('#city');
             var $area = $('#area');
+            var $button = $('#button');
             var result;
             window.onload = function () {
                 var epaAPI = "https://opendata.epa.gov.tw/ws/Data/RainTenMin/?$format=json&callback=?";
@@ -90,68 +91,100 @@
                             }
                         });
                     });
-
+                    //查詢
+                    var s_rain;
+                    var s_color;
+                    $button.on('click', function () {
+                        var x = $area.val();
+                        $content.html('');
+                        data.forEach(function (e, i) {
+                            if (e.Township == x) {
+                                if (e['Rainfall1hr'] > 40 && e['Rainfall24hr'] < 100) {
+                                    s_rain = "大雨";
+                                    s_color = "152,245,255";
+                                } else if (e['Rainfall3hr'] > 100 && e['Rainfall24hr'] < 200) {
+                                    s_rain = "豪雨";
+                                    s_color = "255,215,0";
+                                } else if (e['Rainfall24hr'] > 350 && e['Rainfall24hr' < 500]) {
+                                    s_rain = "大豪雨";
+                                    s_color = "255,0,0";
+                                } else if (e['Rainfall24hr'] > 500) {
+                                    s_rain = "超大豪雨";
+                                    s_color = "162,32,240"
+                                } else {
+                                    s_rain = "晴天";
+                                    s_color = "0,0,255";
+                                } $content.append('<tr><td>' + e['County'] + e['Township'] + '</td><td style="background-color:rgb(' + s_color + ');">' + e['Rainfall24hr'] + '</td><td>' + s_rain + '</td><tr>');
+                                changergb(s_color);
+                            }
+                        });
+                    });
+                    console.log(rain_data);
                     clickbtn.on('click', function (event) {
                         cpf.initSpeechRecognition("cmn-Hant-TW");
                     });
-
-                    function GetRecognizeResult(Result, Type) {
-                        var rain = "";
-
-                        var color = "";
-
-                        for (var i = 1; i <= rain_data.length; i++) {
-                            var item = rain_data[i];
-                            content.html("");
-
-                            if (Result.includes("台")) {
-                                Result = Result.replace("台", "臺");
-                            }
-                            if (Result.includes("降雨量") && Result.includes(item['County']) && Result.includes(item['Township'])) {
-                                //判斷降雨量
-                                if (item['Rainfall1hr'] > 40 && item['Rainfall24hr'] < 100) {
-                                    rain = "大雨";
-                                    color = "152,245,255";
-                                    console.log(rain, color);
-                                } else if (item['Rainfall3hr'] > 100 && item['Rainfall24hr'] < 200) {
-                                    rain = "豪雨";
-                                    color = "255,215,0";
-                                    console.log(rain, color);
-                                } else if (item['Rainfall24hr'] > 350 && item['Rainfall24hr'] < 500) {
-                                    rain = "大豪雨";
-                                    color = "255,0,0";
-                                    console.log(rain, color);
-                                } else if (item['Rainfall24hr'] > 500) {
-                                    rain = "超大豪雨";
-                                    color = "160,32,240";
-                                    console.log(rain, color);
-                                } else {
-                                    rain = "晴天";
-                                    color = "0,0,255";
-                                    console.log(rain, color);
-                                }
-                                //語音
-                                cpf.SetSpeech("off", "cmn-Hant-TW", item['County'] + item['Township'] + "目前正在下" + rain + ",二十四小時內降雨量為" + item['Rainfall24hr'], 1, 1);
-                                //螢幕顯示雨量指標顏色
-                                cpf.request('["grove_rgblcd_set_rgb", ' + color + ']');
-                                //設定文字
-                                cpf.request('["grove_rgblcd_clear"]');
-                                cpf.request('["grove_rgbld_print", 0, 1, "' + item['Cunty'] + "  " + item['Township'] + "  " + rain + '"]');
-
-                                content.append('<tr><td>' + item['County'] + item['Township'] + '</td><td style="background-color:rgb(' + color + ');">' + item['Rainfall24hr'] + '</td><td>' + rain + '</td><tr>');
-                                //設定LED燈泡顏色
-                                cpf.request('["grove_setColorRGB", 0, ' + color + ']');
-                                break;
-                            }
-                        }
-                    }
+                    GetRecognizeResult(Result, type);
 
                 });
 
             }
 
+            //語音辨識
+            function GetRecognizeResult(Result, Type) {
+                var rain = "";
 
+                var color = "";
 
+                for (var i = 1; i <= rain_data.length; i++) {
+                    var item = rain_data[i];
+                    content.html("");
+
+                    if (Result.includes("台")) {
+                        Result = Result.replace("台", "臺");
+                    }
+                    if (Result.includes("降雨量") && Result.includes(item['County']) && Result.includes(item['Township'])) {
+                        //判斷降雨量
+                        if (item['Rainfall1hr'] > 40 && item['Rainfall24hr'] < 100) {
+                            rain = "大雨";
+                            color = "152,245,255";
+                            console.log(rain, color);
+                        } else if (item['Rainfall3hr'] > 100 && item['Rainfall24hr'] < 200) {
+                            rain = "豪雨";
+                            color = "255,215,0";
+                            console.log(rain, color);
+                        } else if (item['Rainfall24hr'] > 350 && item['Rainfall24hr'] < 500) {
+                            rain = "大豪雨";
+                            color = "255,0,0";
+                            console.log(rain, color);
+                        } else if (item['Rainfall24hr'] > 500) {
+                            rain = "超大豪雨";
+                            color = "160,32,240";
+                            console.log(rain, color);
+                        } else {
+                            rain = "晴天";
+                            color = "0,0,255";
+                            console.log(rain, color);
+                        }
+                        //語音
+                        cpf.SetSpeech("off", "cmn-Hant-TW", item['County'] + item['Township'] + "目前正在下" + rain + ",二十四小時內降雨量為" + item['Rainfall24hr'], 1, 1);
+                        //螢幕顯示雨量指標顏色
+                        cpf.request('["grove_rgblcd_set_rgb", ' + color + ']');
+                        //設定文字
+                        cpf.request('["grove_rgblcd_clear"]');
+                        cpf.request('["grove_rgbld_print", 0, 1, "' + item['Cunty'] + "  " + item['Township'] + "  " + rain + '"]');
+
+                        content.append('<tr><td>' + item['County'] + item['Township'] + '</td><td style="background-color:rgb(' + color + ');">' + item['Rainfall24hr'] + '</td><td>' + rain + '</td><tr>');
+                        //設定LED燈泡顏色
+                        cpf.request('["grove_setColorRGB", 0, ' + color + ']');
+                        break;
+                    }
+                }
+            }
+            function changergb(s_color) {
+                if (cpf) {
+                    cpf.request('["grove_setColorRGB", 0, ' + s_color + ']');
+                }
+            }
             function setup() {
                 if (cpf) {
                     cpf.setPinMode('["resetPin"], ["grove_newChainableLED", 7, 8, 1], ["setPinMode", "digital", 4, "TONE"], ["grove_rgblcd_begin", 16, 2]');
