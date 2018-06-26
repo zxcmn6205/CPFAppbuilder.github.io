@@ -97,18 +97,18 @@
                     data.ROOT.DATA.forEach(function (e, i) {
                         if (e.水位站名稱 == aa) {
                             if (e['是否黃色警戒1是0否' == 1]) {
-                                category = "黃色警戒";
+                                category = "YELLOW ALERT";
                                 color = "255,255,0";
                                 cpf.request('["tone_play", 4, 725, 100],["sleep", 50],["tone_play", 4, 725, 100],["sleep", 50],["tone_play", 4, 725, 100],["sleep", 50],["tone_play", 4, 725, 100]');
 
                             }
                             else if (e['是否紅色警戒1是0否' == 1]) {
-                                category = "紅色警戒";
+                                category = "RED ALERT";
                                 color = "255,0,0";
                                 cpf.request('["tone_play", 4, 1046, 100],["sleep", 50],["tone_play", 4, 1046, 100],["sleep", 50],["tone_play", 4, 1046, 100],["sleep", 50],["tone_play", 4, 1046, 100]');
                             }
                             else {
-                                category = "正常";
+                                category = "NORMAL";
                                 color = "0,255,0";
                             }
                             $content.append('<tr><td>' + e['行政區'] + e['水位站名稱'] + '</td>' + '<td>' + category + '</td>' + '<td style="background-color:rgb(' + color + ');">' + '</td></tr>');
@@ -135,8 +135,8 @@
         if (cpf) {
             //設定LCD面板顏色及文字
             cpf.request('["grove_rgblcd_clear"]');
-            cpf.request('["grove_rgblcd_set_rgb", ' + s_color + ']');
-            cpf.request('["grove_rgbld_print", 0, 1, "' + e_rain + '"]');
+            cpf.request('["grove_rgblcd_set_rgb", ' + color + ']');
+            cpf.request('["grove_rgbld_print", 0, 1, "' + category + '"]');
         }
     }
 </script>
