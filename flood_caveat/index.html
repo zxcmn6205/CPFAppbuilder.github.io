@@ -113,7 +113,7 @@
                             }
                             $content.append('<tr><td>' + e['行政區'] + e['水位站名稱'] + '</td>' + '<td>' + category + '</td>' + '<td style="background-color:rgb(' + color + ');">' + '</td></tr>');
                             changergb(color);
-                            seperate(color, category);
+                            this.seperate(color, category);
                         }
                     });
                 })
@@ -134,6 +134,8 @@
     function seperate(color, category) {
         if (cpf) {
             //設定LCD面板顏色及文字
+            console.log(color);
+            console.log(category);
             cpf.request('["grove_rgblcd_clear"]');
             cpf.request('["grove_rgblcd_set_rgb", ' + color + ']');
             cpf.request('["grove_rgbld_print", 0, 1, "' + category + '"]');
