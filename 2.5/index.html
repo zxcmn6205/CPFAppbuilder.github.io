@@ -188,24 +188,24 @@
             }
         }*/
         //設定燈泡顏色
-        function changergb(s_color) {
-            if (cpf) {
-                cpf.request('["grove_setColorRGB", 0, ' + s_color + ']');
-            }
-        }
-        function seperate(s_color, e_rain) {
-            if (cpf) {
-                //設定LCD面板顏色及文字
-                cpf.request('["grove_rgblcd_clear"]');
-                cpf.request('["grove_rgblcd_set_rgb", ' + s_color + ']');
-                cpf.request('["grove_rgbld_print", 0, 1, "' + e_rain + '"]');
-            }
-        }
-        function setup() {
-            if (cpf) {
-                cpf.setPinMode('["resetPin"], ["grove_newChainableLED", 7, 8, 1], ["grove_rgblcd_begin", 16, 2]');
-            }
-        }
+        // function changergb(s_color) {
+        //     if (cpf) {
+        //         cpf.request('["grove_setColorRGB", 0, ' + s_color + ']');
+        //     }
+        // }
+        // function seperate(s_color, e_rain) {
+        //     if (cpf) {
+        //         //設定LCD面板顏色及文字
+        //         cpf.request('["grove_rgblcd_clear"]');
+        //         cpf.request('["grove_rgblcd_set_rgb", ' + s_color + ']');
+        //         cpf.request('["grove_rgbld_print", 0, 1, "' + e_rain + '"]');
+        //     }
+        // }
+        // function setup() {
+        //     if (cpf) {
+        //         cpf.setPinMode('["resetPin"], ["grove_newChainableLED", 7, 8, 1], ["grove_rgblcd_begin", 16, 2]');
+        //     }
+        // }
     </script>
 </body>
 
