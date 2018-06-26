@@ -17,13 +17,15 @@
     <div class="container" id="div1">123456</div>        
     <script>
         
-        window.onload = function () {
-            var epaAPI = "http://opendata2.epa.gov.tw/AQX.json";
-            $.getJSON(epaAPI, function () {
-                format: "json"
-            }).done(function (data) {
-                console.log("opendata loaded");
-                console.log(data);
+        window.onload = function(){
+            // 取得今日PM2.5資料
+            var data_url="http://opendata2.epa.gov.tw/AQX.json";
+            $.ajax({
+                url: data_url,
+                success: function(res){
+                    pm_data = res;
+                    console.log(res);
+                }
             });
         };
 
