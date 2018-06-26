@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Access-Control-Allow-Origin" content="https://opendata.epa.gov.tw" />
     <title>RainFall Caveat</title>
-    <link rel="stylesheet" href="font-awesome-4.7.0\css\font-awesome.min.css">
+    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -40,20 +41,9 @@
             var rain_data;
             var clickbtn = $('#clickbtn');
             var content = $('#content');
-            window.onload = function () {
-                var data_url = "https://opendata.epa.gov.tw/ws/Data/RainTenMin/?$format=json&callback=?";
-
-                $.ajax({
-                    url: data_url,
-                    success: function (res) {
-                        rain_data = res;
-                    }
-                });
-
-                clickbtn.on('click', function () {
-                    cpf.initSpeechRecognition("cmn-Hant-TW");
-                });
-            }
+            $.get('https://opendata.epa.gov.tw/ws/Data/RainTenMin/?$format=json&callback=?', function(e){
+                console.log(e);
+            })
             
             function GetRecognizeResult(Result,Type) {
                 var rain = "";

@@ -1,105 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>RainFall Caveat</title>
-    <link rel="stylesheet" href="font-awesome-4.7.0\css\font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>PM2.5</title>
 </head>
-
+<style>
+    body{
+        padding: 30px;
+    }
+    button{
+        width: 100%;
+    }
+</style>
 <body>
     <div class="container">
         <div class="col-xs-12">
-            <h3>降雨量語音查詢</h3>
+            <h3>PM2.5語音查詢</h3>
             <hr>
         </div>
 
         <div class="col-xs-12">
-            <button class="btn-info" id="clickbtn" style="padding: 10px 30px;border-radius: 10px">Voice</button>
+            <button class="btn-info" id="clickbtn" style="padding: 10px 30px;border-radius: 10px">VOICE</button>
         </div>
 
         <div class="col-xs-12">
             <table class="table table-striped" style="margin-top: 30px">
-                <thead>
-                    <tr>
-                        <th>區域</th>
-                        <th>降雨量</th>
-                        <th>指標</th>
-                    </tr>
+                <thead style="background-color: #83C6D9;color: white;">
+                        <tr>
+                            <th>區域</th>
+                            <th>PM 2.5 濃度</th>
+                            <th>指標</th>
+                        </tr>
                 </thead>
                 <tbody id="content"></tbody>
             </table>
         </div>
-        <script>
-            setup();
-            var rain_data;
-            var clickbtn = $('#clickbtn');
-            var content = $('#content');
-            window.onload = function () {
-                var data_url = "https://opendata.epa.gov.tw/ws/Data/RainTenMin/?$format=json";
-
-                $.ajax({
-                    url: data_url,
-                    success: function (res) {
-                        rain_data = res;
-                    }
-                });
-
-                clickbtn.on('click', function () {
-                    cpf.initSpeechRecognition("cmn-Hant-TW");
-                });
-            }
-
-            function GetRecgnizeResult(Result, Type) {
-                var rain = "";
-
-                var color = "";
-
-                for (var i = 1; i <= rain_data.length; i++) {
-                    var item = rain_data[i];
-                    content.html("");
-
-                    if (Result.includes("台")) {
-                        Result = Result.replace("台", "臺");
-                    }
-                    if (Result.includes("降雨量") && Result.includes(item['County']) && Result.includes(item['Township'])) {
-                        //判斷降雨量
-                        if (item['Rainfall1hr'] > 40 && item['Rainfall24hr'] < 100) {
-                            rain = "大雨";
-                            color = "152,245,255";
-                        } else if (item['Rainfall3hr'] > 100 && item['Rainfall24hr'] < 200) {
-                            rain = "豪雨";
-                            color = "255,215,0";
-                        } else if (item['Rainfall24hr'] > 350 && item['Rainfall24hr'] < 500) {
-                            rain = "大豪雨";
-                            color = "255,0,0";
-                        } else if (item['Rainfall24hr'] > 500) {
-                            rain = "超大豪雨";
-                            color = "160,32,240";
-                        }
-
-                        cpf.SetSpeech("off", "cmn-Hant-TW", item['County'] + item['Township'] + "目前正在下" + rain + ",二十四小時內降雨量為" + item['Rainfall24hr'], 1, 1);
-                        
-                        content.append('<tr><td>'+item['County']+item['Township']+'</td><td style="background-color:rgb('+color+');">'+item['Rainfall24hr']+'</td><td>'+rain+'</td><tr>');
-
-                        cpf.request('["grove_setColorRGB", 0, ' + color + ']');
-                        break;
-                    }
-                }
-            }
-
-            function setup(){
-                if(cpf){
-                    cpf.setPinMode('["resetPin"], ["grove_newChainableLED", 7, 8, 1]');
-                }
-            }
-        </script>
     </div>
 </body>
-
+<script>
+    //setup();
+    var pm_data;
+    var clickbtn = $('#clickbtn');
+    var content = $('#content');
+    window.onload = function(){
+        // 取得今日PM2.5資料
+        var data_url="http://opendata2.epa.gov.tw/AQX.json";
+        $.ajax({
+            url: data_url,
+            success: function(res){
+                pm_data = res;
+            }
+        });
+        
+        clickbtn.on('click', function(){
+            cpf.initSpeechRecognition("cmn-Hant-TW");
+        });
+    }
+    
+    function GetRecognizeResult(Result,Type){
+        // 空氣指標
+        var category = "";
+        // 燈號顏色
+        var color = "";
+        for(var i=1;i<=pm_data.length;i++){
+            var item = pm_data[i];
+            content.html("");
+            if(Result.includes("台")){
+                Result = Result.replace("台", "臺");
+            }
+            if(Result.includes("空氣") && Result.includes(item['County']) && Result.includes(item['SiteName'])){
+                // 判斷PM2.5指標
+                if(item['PM2.5']<=15){
+                    category = "良好";
+                    color="0,232,0";
+                }else if(item['PM2.5']>=16 && item['PM2.5']<=35){
+                    category = "普通";
+                    color="255,255,0";
+                }else if(item['PM2.5']>=36 && item['PM2.5']<=54){
+                    category = "對敏感族群不健康";
+                    color="255,126,0";
+                }else if(item['PM2.5']>=55 && item['PM2.5']<=150){
+                    category = "對所有族群不健康";
+                    colo25r="255,0,0";
+                }else if(item['PM2.5']>=151 && item['PM2.5']<=250){
+                    category = "非常不健康";
+                    color="143,63,151";
+                }else if(item['PM2.5']>=251 && item['PM2.5']<=350){
+                    category = "危害";
+                    color="126,0,35";
+                }else if(item['PM2.5']>=351 && item['PM2.5']<=500){
+                    category = "危害";
+                    color="126,0,35";
+                }
+                // 語音朗讀
+                cpf.SetSpeech("Off", "cmn-Hant-TW", item['County']+item['SiteName']+
+                "的空氣指標顯示為"+category+"，P M 二點五濃度為"+item['PM2.5'], 1, 1);
+                
+                content.append('<tr><td>'+item['County']+item['SiteName']+
+                '</td><td style="background-color:rgb('+color+');">'+item['PM2.5']+'</td><td>'+category+'</td></tr>');
+                
+                // RGB LED顏色控制
+                cpf.request('["grove_setColorRGB", 0, ' + color + ']');
+                break;
+            }
+        }
+    }
+    //cpf設定
+    function setup(){
+        if(cpf){
+            cpf.setPinMode('["resetPin"],["grove_newChainableLED", 7, 8, 1]'); 
+        }
+    }
+</script>
 </html>
