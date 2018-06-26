@@ -22,7 +22,9 @@
             $.getJSON(epaAPI, function () {
                 format: "json"
             }).done(function (data) {
-                console.log(data[0]['SiteId']);
+                // console.log(data[0]['SiteId']);
+                $("#div1").html(data[0]['SiteId']);
+                
             });
             // 取得今日PM2.5資料
             // var data_url="https://opendata.epa.gov.tw/ws/Data/RainTenMin/?$format=json&callback=?";
