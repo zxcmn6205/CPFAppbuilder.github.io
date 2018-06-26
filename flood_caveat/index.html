@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>flood Caveat</title>
+    <link rel="stylesheet" href="font-awesome-4.7.0\css\font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="row" align="center" id="top">
+        <div align="center" class="col-xs-12">
+            <h1>水位警報器</h1>
+        </div>
+        <div align="center" class="col-xs-12 col-md-8 col-md-offset-2" style="margin-top: 2em;">
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <select id="city" class="form-control">
+                        <option value="choose">請選擇</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <select id="area" class="form-control">
+                        <option value="choose">請選擇</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <button id="button" type="button" class="btn btn-info">查詢</button>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="bottom">
+        <div class="col-xs-12 col-md-8 col-md-offset-2">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>區域</th>
+                        <th>是否警戒</th>
+                        <th>指標</th>
+                    </tr>
+                </thead>
+                <tbody id="content">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+<script>
+    window.onload = function () {
+        var $city = $('#city');
+        var $area = $('#area');
+        var $button = $('#button');
+        var $content = $('#content');
+        var county = [];
+        var result;
+        var proxyurl = "https://cors-anywhere.herokuapp.com/";
+        var url = "http://117.56.226.215/TCSAFE/UploadFile/WATERLEVEL/WATERLEVEL.JSON";
+        fetch(proxyurl + url)
+            .then(response => response.json())
+            .then(function (data) {
+                data.ROOT.DATA.forEach(function (e, i) {
+                    county[i] = e.行政區;
+                });
+                result = county.filter(function (element, index, arr) {
+                    return arr.indexOf(element) === index;
+                });
+                //篩選區域
+                result.forEach(function (e) {
+                    $city.append('<option value="' + e + '">' + e + '</option>');
+                });
+                var cc = $city.val();
+                $("#city").change(function (e, i) {
+                    cc = $city.val();
+                    $area.html('');
+                    data.ROOT.DATA.forEach(function (e, i) {
+                        if (e.行政區 == cc) {
+                            $area.append('<option value="' + e.水位站名稱 + '">' + e.水位站名稱 + '</option>')
+                        }
+                    });
+                });
+
+                var category;
+                var color;
+                $button.on('click', function () {
+                    var aa = $area.val();
+                    $content.html('');
+                    data.ROOT.DATA.forEach(function (e, i) {
+                        if (e.水位站名稱 == aa) {
+                            if (e['是否黃色警戒1是0否' == 1]) {
+                                category = "黃色警戒";
+                                color = "255,255,0";
+                                cpf.request('["tone_play", 4, 725, 100],["sleep", 50],["tone_play", 4, 725, 100],["sleep", 50],["tone_play", 4, 725, 100],["sleep", 50],["tone_play", 4, 725, 100]');
+
+                            }
+                            else if (e['是否紅色警戒1是0否' == 1]) {
+                                category = "紅色警戒";
+                                color = "255,0,0";
+                                cpf.request('["tone_play", 4, 1046, 100],["sleep", 50],["tone_play", 4, 1046, 100],["sleep", 50],["tone_play", 4, 1046, 100],["sleep", 50],["tone_play", 4, 1046, 100]');
+                            }
+                            else {
+                                category = "正常";
+                                color = "0,255,0";
+                            }
+                            $content.append('<tr><td>' + e['行政區'] + e['水位站名稱'] + '</td>' + '<td>' + category + '</td>' + '<td style="background-color:rgb(' + color + ');">' + '</td></tr>');
+                            changergb(s_color);
+                            seperate(s_color, e_rain);
+                        }
+                    });
+                })
+            })
+    }
+    function setup() {
+        if (cpf) {
+            cpf.setPinMode('["resetPin"],["grove_newChainableLED", 7, 8, 1], ["setPinMode", "digital", 4, "TONE"], ["grove_rgblcd_begin", 16, 2]');
+        }
+    }
+    // 設定燈泡顏色
+    function changergb(s_color) {
+        if (cpf) {
+            cpf.request('["grove_setColorRGB", 0, ' + s_color + ']');
+        }
+    }
+    
+    function seperate(s_color, e_rain) {
+        if (cpf) {
+            //設定LCD面板顏色及文字
+            cpf.request('["grove_rgblcd_clear"]');
+            cpf.request('["grove_rgblcd_set_rgb", ' + s_color + ']');
+            cpf.request('["grove_rgbld_print", 0, 1, "' + e_rain + '"]');
+        }
+    }
+</script>
+
+</html>
