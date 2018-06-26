@@ -71,6 +71,7 @@
                 data.ROOT.DATA.forEach(function (e, i) {
                     county[i] = e.行政區;
                 });
+                data.ROOT.DATA[0].是否紅色警戒1是0否 = 1;
                 result = county.filter(function (element, index, arr) {
                     return arr.indexOf(element) === index;
                 });
