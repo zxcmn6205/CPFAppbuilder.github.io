@@ -18,7 +18,7 @@
     <script>
         
         window.onload = function () {
-            var epaAPI = "http://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL&$top=10";
+            var epaAPI = "http://opendata2.epa.gov.tw/AQX.json";
             $.getJSON(epaAPI, function () {
                 format: "json"
             }).done(function (data) {
